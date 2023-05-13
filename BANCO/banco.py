@@ -50,4 +50,5 @@ def setPago(id):
     cursor.execute(f"UPDATE Gasto set pago = 1 WHERE rowid = ?", (id, ))
     conexao.commit() 
 
-createFirstTable()
+dados = readAll()
+print(len(dados))

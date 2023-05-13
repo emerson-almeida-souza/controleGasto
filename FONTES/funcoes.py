@@ -77,6 +77,28 @@ def validaData():
     data = f'{diaVencimento}/{mesVencimento}/{anoVencimento}'
     return data
 
+#continuar
+def validaId():
+    os.system("cls")
+    id = None
+    while True:
+        try:
+            id = int(input("Digite um valor: "))
+            if len(gasto) == 0:
+                raise ValueError("O ID não existe na base dados, por favor insira um valor válido!")
+            if id <= 0:
+              raise ValueError("Valor inválido! O ID não pode ser negativo!")
+            break
+        except ValueError as ve:
+            if "could not convert" in str(ve):
+                print("Valor inválido! Digite um valor em formato de moeda EX: R$1.00")
+                pressioneParaContinuar()
+            else:
+                print(ve)
+                pressioneParaContinuar()
+    
+    return valor
+
 def registrarContaPaga():
     pass
 
@@ -94,9 +116,12 @@ def inputs():
 def createGasto(gasto: Gasto):
     bd.create(gasto.nome, gasto.valor, gasto.diaVencimento, gasto.pago)
 
+def readGastos():
+    gastos = bd.readAll()
+    return gastos
+
 def readGasto():
-    dados = bd.readAll()
-    return dados
+    id = validaId()
 
 def updateGasto(id, nome, valor, categoria, diaVencimento):
     bd.update(id,nome, valor, categoria, diaVencimento)
@@ -105,10 +130,10 @@ def updateCampoEspecifico(campo, valor):
     pass
 
 def updatePago(id):
-    #Validações
-    #Verificar se o ID existe no banco
-    #Verificar se o ID é um inteiro
-    bd.setPago(id)
+    gasto = bd.readOne(id) 
+    mensagem = None
+    idValidade = validaId(id)
+        
     
 def deletarGasto(id):
     bd.delete(id)
